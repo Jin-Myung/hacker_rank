@@ -25,12 +25,14 @@ void print_vector(const vector<int> &ar) {
 }
 
 void insertionSortAll(vector<int> &ar) {
+    int cnt = 0;
     for (vector<int>::size_type ii = 1; ii < ar.size(); ++ii) {
         for (decltype(ii) jj = ii; jj > 0 && ar[jj] < ar[jj-1]; --jj) {
             swap(ar[jj], ar[jj-1]);
+            ++cnt;
         }
-        print_vector(ar);
     }
+    cout << cnt << endl;
 }
 
 int main(void) {
