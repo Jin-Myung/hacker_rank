@@ -3,31 +3,27 @@ using namespace std;
 
 int partition(vector <int> &ar, int lo, int hi) {
     int pivot = ar[hi];
-    int ii = lo-1;
-    int jj = hi;
+    int curr = lo;
+    int greater = lo;
     while (1) {
-        while (ar[++ii] < pivot) {
-            if (ii == hi) {
-                break;
-            }
+        if (ar[curr] < pivot) {
+            swap(ar[curr], ar[greater]);
+            ++curr;
+            ++greater;
+        } else {
+            ++curr;
         }
-        while (ar[--jj] > pivot) {
-            if (jj == lo) {
-                break;
-            }
-        }
-        if (jj <= ii) {
+        if (curr >= hi) {
             break;
         }
-        swap(ar[ii], ar[jj]);
     }
-    swap(ar[ii], ar[hi]);
+    swap(ar[hi], ar[greater]);
 //    cout << "P: ";
 //    for (int ii = lo; ii <= hi; ++ii) {
 //        cout << ar[ii] << " ";
 //    }
 //    cout << endl;
-    return ii;
+    return greater;
 }
 
 void quickSort(vector <int> &ar, int lo, int hi) {
