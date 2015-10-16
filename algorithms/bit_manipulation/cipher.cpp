@@ -37,12 +37,22 @@ int main() {
     string str;
     cin >> str;
     string output;
+    bool res = 0;
     for (int ii = 0; ii < N; ++ii) {
-        bool next = get_next_value(str[ii], output, K-1);
+        bool next = res;
+        if (str[ii] == '1') {
+            next = !next;
+        }
         if (next) {
             output += '1';
+            res = !res;
         } else {
             output += '0';
+        }
+        if (output.length() >= K) {
+            if (output[output.length()-K] == '1') {
+                res = !res;
+            }
         }
     }
     cout << output << endl;
