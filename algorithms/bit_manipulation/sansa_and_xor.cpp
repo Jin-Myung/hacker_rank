@@ -5,18 +5,42 @@
 #include <algorithm>
 using namespace std;
 
-int factorial(int n) {
-    if (n <= 1) {
+long get_perm(int n, int k) {
+    if (k == 0) {
         return 1;
     }
-    return n * factorial(n-1);
+    long ret = n;
+    for (int ii = 1; ii < k; ++ii) {
+        ret *= (n-ii);
+    }
+    return ret;
 }
 
-int get_binomial(int k, int n) {
-    if (k == 0 || k == n) {
+long factor(int k) {
+    if (k <= 1) {
         return 1;
     }
-    return factorial(n) / factorial(n-k) / factorial(k);
+    return k * factor(k-1);
+}
+
+int get_binomial_parity(int n, int k) {
+    if (n-k < k) {
+        k = n-k;
+    }
+    if (k < 10) {
+        long comb = get_perm(n, k) / factor(k);
+        if (comb % 2 == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    if (n % 2 == 0 && k % 2 == 1) {
+        // even
+        return 0;
+    } else {
+        return get_binomial_parity(n/2, k/2);
+    }
 }
 
 void sxor() {
@@ -30,12 +54,13 @@ void sxor() {
     }
     int res = 0;
     for (int ii = 0; ii < arr.size(); ++ii) {
-        int num_rep = get_binomial(ii, arr.size()-1) + arr.size() - 1;
-//        cout << num_rep << " ";
+        int num_rep = get_binomial_parity(arr.size()-1, ii) + arr.size() - 1;
+        cout << num_rep << " ";
         if (num_rep % 2) {
             res ^= arr[ii];
         }
     }
+    cout << endl;
     cout << res << endl;
 }
 
